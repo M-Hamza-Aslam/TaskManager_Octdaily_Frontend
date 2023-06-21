@@ -1,0 +1,13 @@
+.taskHeader {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 3rem 0 3rem 0;
+}
+.colHeading {
+  font-weight: 700 !important;
+}
+.sortBy,
+.taskStatusFilter {
+  width: 10rem;
+}
