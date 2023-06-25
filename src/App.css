@@ -1,4 +1,10 @@
 .App {
   text-align: center !important;
-  margin-top: 5%;
+  margin: 3% 0 3% 0;
+}
+.mainAppContainer {
+  background-color: var(--color-primary);
+  border-radius: 7px;
+  padding: 2rem 0 2rem 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

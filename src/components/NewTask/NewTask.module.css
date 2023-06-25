@@ -1,0 +1,36 @@
+.newTask {
+  background-color: var(--color-primary);
+  border-radius: 7px;
+  /* padding: 1.5rem; */
+  /* width: 50%; */
+}
+.newTask > h1 {
+  margin-top: 0;
+}
+.formControl {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.formControl input,
+.formControl div {
+  background-color: var(--color-primary) !important;
+}
+.formBtn {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+.primaryBtn {
+  background-color: var(--color-btn-primary);
+}
+.primaryBtn:hover {
+  background-color: var(--color-btn-primary-hover);
+}
+.secondaryBtn {
+  background-color: var(--color-btn-secondary);
+}
+.secondaryBtn:hover {
+  background-color: var(--color-btn-secondary-hover);
+}

@@ -4,6 +4,12 @@
   align-items: center;
   margin: 3rem 0 3rem 0;
 }
+.taskHeader > button {
+  background-color: var(--color-btn-primary);
+}
+.taskHeader > button:hover {
+  background-color: var(--color-btn-primary-hover);
+}
 .colHeading {
   font-weight: 700 !important;
 }

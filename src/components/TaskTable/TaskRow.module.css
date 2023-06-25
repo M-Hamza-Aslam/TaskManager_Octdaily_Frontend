@@ -1,0 +1,6 @@
+.actionIcon {
+  color: var(--color-btn-primary);
+}
+.actionIcon:hover {
+  color: var(--color-btn-primary-hover);
+}

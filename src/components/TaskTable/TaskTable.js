@@ -9,45 +9,26 @@ import {
   TableCell,
   TablePagination,
   TextField,
-  IconButton,
   Button,
   MenuItem,
 } from "@mui/material";
 import TaskRow from "./TaskRow";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-// Sample data
-const initialData = [
-  {
-    id: 1,
-    title: "Create ERD",
-    dueDate: "2023-06-30",
-    asignee: "Ahmed",
-    status: "In progress",
-    description: "create ERD for project Pluto",
-  },
-  {
-    id: 2,
-    title: "Design Flow diagram",
-    dueDate: "2023-06-20",
-    asignee: "Noman",
-    status: "Complete",
-    description: "design flow diagram as instructed for the king food app",
-  },
-  {
-    id: 3,
-    title: "Provide quotation on pizzaria",
-    dueDate: "2023-06-25",
-    asignee: "Usman",
-    status: "In progress",
-    description: "provide complete quotation on pizzaria project",
-  },
+const newTaskObj = {
+  _id: "0",
+  title: "",
+  asignee: "",
+  status: "",
+  description: "",
+};
 
-  // Add more data entries as needed
-];
+const TaskTable = () => {
+  const navigate = useNavigate();
+  const tasks = useSelector((state) => state.task.tasks);
 
-const MyTable = () => {
   // State variables
-  const [data, setData] = useState(initialData);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortAttribute, setSortAttribute] = useState("title");
   const [sortBy, setSortBy] = useState("asc");
@@ -56,12 +37,11 @@ const MyTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   // Filtering and Sorting functions
-  const filteredData = data.filter((entry) => {
+  const filteredData = tasks.filter((entry) => {
     const matchesSearchQuery =
       entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       entry.asignee.toLowerCase().includes(searchQuery.toLowerCase()) ||
       entry.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      entry.dueDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
       entry.status.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesTaskStatus =
@@ -93,21 +73,21 @@ const MyTable = () => {
     setPage(0);
   };
 
-  // CRUD operations
-  const handleDelete = (id) => {
-    const updatedData = data.filter((entry) => entry.id !== id);
-    setData(updatedData);
-  };
-
   // JSX rendering
   return (
     <>
       <div className={classes.taskHeader}>
-        <Button variant="contained">Add Task</Button>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/create-task", { state: newTaskObj })}
+        >
+          Add Task
+        </Button>
         <TextField
           label="Search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          size="small"
         />
         <TextField
           select
@@ -115,9 +95,9 @@ const MyTable = () => {
           value={sortAttribute}
           onChange={(e) => setSortAttribute(e.target.value)}
           className={classes.sortBy}
+          size="small"
         >
           <MenuItem value="title">Title</MenuItem>
-          <MenuItem value="dueDate">DueDate</MenuItem>
           <MenuItem value="asignee">Asignee</MenuItem>
         </TextField>
         <TextField
@@ -126,6 +106,7 @@ const MyTable = () => {
           value={taskStatusFilter}
           onChange={(e) => setTaskStatusFilter(e.target.value)}
           className={classes.taskStatusFilter}
+          size="small"
         >
           <MenuItem value="All">All</MenuItem>
           <MenuItem value="Complete">Complete</MenuItem>
@@ -138,19 +119,16 @@ const MyTable = () => {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell className={classes.colHeading} align="center">
+              <TableCell className={classes.colHeading} align="start">
                 Title
               </TableCell>
-              <TableCell className={classes.colHeading} align="center">
-                Due Date
-              </TableCell>
-              <TableCell className={classes.colHeading} align="center">
+              <TableCell className={classes.colHeading} align="start">
                 Asignee
               </TableCell>
-              <TableCell className={classes.colHeading} align="center">
+              <TableCell className={classes.colHeading} align="start">
                 Status
               </TableCell>
-              <TableCell className={classes.colHeading} align="center">
+              <TableCell className={classes.colHeading} align="start">
                 Actions
               </TableCell>
             </TableRow>
@@ -159,11 +137,7 @@ const MyTable = () => {
             {sortedData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((entry) => (
-                <TaskRow
-                  key={entry.id}
-                  row={entry}
-                  handleDelete={handleDelete}
-                />
+                <TaskRow key={entry._id} row={entry} />
               ))}
           </TableBody>
         </Table>
@@ -182,4 +156,4 @@ const MyTable = () => {
   );
 };
 
-export default MyTable;
+export default TaskTable;
