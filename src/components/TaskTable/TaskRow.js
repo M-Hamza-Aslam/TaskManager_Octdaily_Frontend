@@ -65,12 +65,12 @@ export default function TaskRow(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row" align="start">
+        <TableCell component="th" scope="row" align="left">
           {row.title}
         </TableCell>
-        <TableCell align="start">{row.asignee}</TableCell>
-        <TableCell align="start">{row.status}</TableCell>
-        <TableCell align="start">
+        <TableCell align="left">{row.asignee}</TableCell>
+        <TableCell align="left">{row.status}</TableCell>
+        <TableCell align="left">
           <Button onClick={editTaskHandler}>
             <EditIcon className={classes.actionIcon} />
           </Button>

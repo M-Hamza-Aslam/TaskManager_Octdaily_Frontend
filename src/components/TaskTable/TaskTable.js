@@ -119,16 +119,16 @@ const TaskTable = () => {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell className={classes.colHeading} align="start">
+              <TableCell className={classes.colHeading} align="left">
                 Title
               </TableCell>
-              <TableCell className={classes.colHeading} align="start">
+              <TableCell className={classes.colHeading} align="left">
                 Asignee
               </TableCell>
-              <TableCell className={classes.colHeading} align="start">
+              <TableCell className={classes.colHeading} align="left">
                 Status
               </TableCell>
-              <TableCell className={classes.colHeading} align="start">
+              <TableCell className={classes.colHeading} align="left">
                 Actions
               </TableCell>
             </TableRow>
