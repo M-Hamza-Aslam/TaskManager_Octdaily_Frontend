@@ -1,11 +1,11 @@
 * {
-  --color-background: rgb(196, 228, 236);
-  --color-primary: #7dbbc2;
+  --color-background: linear-gradient(135deg, #0f2d25 11.2%, #217a77);
+  --color-primary: linear-gradient(135deg, #accfc4 11.2%, #1e8f8b8f);
   --color-secondary: rgb(197, 197, 197);
-  --color-btn-primary: rgb(95, 95, 194);
-  --color-btn-primary-hover: rgb(73, 73, 189);
-  --color-btn-secondary: rgb(151, 151, 151);
-  --color-btn-secondary-hover: rgb(128, 128, 128);
+  --color-btn-primary: #0f2d25;
+  --color-btn-primary-hover: #1e4d40;
+  --color-btn-secondary: rgb(80, 77, 77);
+  --color-btn-secondary-hover: rgb(90, 88, 88);
 }
 body {
   font-family: "Poppins", sans-serif;
@@ -14,7 +14,7 @@ body {
     sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--color-background);
+  background: var(--color-background);
 }
 
 code {

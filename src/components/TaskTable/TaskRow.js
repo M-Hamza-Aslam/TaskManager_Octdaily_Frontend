@@ -18,11 +18,13 @@ import { useDispatch } from "react-redux";
 import { taskActions } from "../../store/taskSlice";
 import { toast } from "react-toastify";
 import { BACKEND_DOMAIN } from "../../config";
+import useLoader from "../../utils/Hooks/useLoader";
 
 export default function TaskRow(props) {
   const { row } = props;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { loader, handleLoader, LoadingComponent } = useLoader();
 
   //state variables
   const [open, setOpen] = useState(false);
@@ -33,6 +35,7 @@ export default function TaskRow(props) {
   };
   const deleteTaskHandler = async () => {
     try {
+      handleLoader(true);
       const fetchResult = await fetch(
         `${BACKEND_DOMAIN}/task/delete?id=${row._id}`,
         {
@@ -40,6 +43,7 @@ export default function TaskRow(props) {
         }
       );
       if (!fetchResult.ok) {
+        handleLoader(false);
         toast.error("Something went wrong while deleting task");
         return;
       }
@@ -48,6 +52,7 @@ export default function TaskRow(props) {
       // update the context API
       dispatch(taskActions.deleteTask(row._id));
       toast.success("Task deleted successfully");
+      handleLoader(false);
     } catch (error) {
       console.log(error);
     }
@@ -55,6 +60,7 @@ export default function TaskRow(props) {
 
   return (
     <Fragment>
+      {loader && LoadingComponent}
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
           <IconButton

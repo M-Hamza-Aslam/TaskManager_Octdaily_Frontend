@@ -6,12 +6,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BACKEND_DOMAIN } from "../../config";
 import { useDispatch } from "react-redux";
 import { taskActions } from "../../store/taskSlice";
+import useLoader from "../../utils/Hooks/useLoader";
 
 const NewTask = (props) => {
   const { isEdit } = props;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const locatiion = useLocation();
+  const { loader, handleLoader, LoadingComponent } = useLoader();
   const { state } = locatiion;
 
   //inputs
@@ -77,6 +79,7 @@ const NewTask = (props) => {
     };
     try {
       //fetch call
+      handleLoader(true);
       const URL = isEdit
         ? `${BACKEND_DOMAIN}/task/update?id=${state._id}`
         : `${BACKEND_DOMAIN}/task/add-new`;
@@ -88,6 +91,7 @@ const NewTask = (props) => {
         },
       });
       if (!fetchResponse.ok) {
+        handleLoader(false);
         throw new Error("Something went wrong!");
       }
       const responseData = await fetchResponse.json();
@@ -103,6 +107,7 @@ const NewTask = (props) => {
       statusReset();
       descriptionReset();
       asigneeReset();
+      handleLoader(false);
       navigate("/");
     } catch (error) {
       toast.error(error.message);
@@ -111,6 +116,7 @@ const NewTask = (props) => {
 
   return (
     <div className={classes.newTask}>
+      {loader && LoadingComponent}
       <h1> {isEdit ? "UPDATE TASK" : "ADD TASK"}</h1>
       <form onSubmit={formSubmitHandler}>
         <div className={classes.formControl}>

@@ -14,7 +14,11 @@ import {
 } from "@mui/material";
 import TaskRow from "./TaskRow";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { BACKEND_DOMAIN } from "../../config";
+import { taskActions } from "../../store/taskSlice";
+import LoadingDiv from "../../utils/LoadingDiv";
 
 const newTaskObj = {
   _id: "0",
@@ -26,6 +30,8 @@ const newTaskObj = {
 
 const TaskTable = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const tasks = useSelector((state) => state.task.tasks);
 
   // State variables
@@ -35,6 +41,7 @@ const TaskTable = () => {
   const [taskStatusFilter, setTaskStatusFilter] = useState("All");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [loading, setLoading] = useState(null);
 
   // Filtering and Sorting functions
   const filteredData = tasks.filter((entry) => {
@@ -72,6 +79,23 @@ const TaskTable = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  // fetching task list from backend
+  useEffect(() => {
+    const fetchTaskList = async () => {
+      setLoading(true);
+      const response = await fetch(`${BACKEND_DOMAIN}/task/list`);
+      if (!response.ok) {
+        throw new Error("Something went wrong while fetching task list");
+      }
+      const data = await response.json();
+
+      // dispatching action to update task list in redux store
+      dispatch(taskActions.setTasks(data.tasks));
+      setLoading(false);
+    };
+    fetchTaskList();
+  }, [dispatch]);
 
   // JSX rendering
   return (
@@ -115,32 +139,36 @@ const TaskTable = () => {
       </div>
 
       <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell className={classes.colHeading} align="left">
-                Title
-              </TableCell>
-              <TableCell className={classes.colHeading} align="left">
-                Asignee
-              </TableCell>
-              <TableCell className={classes.colHeading} align="left">
-                Status
-              </TableCell>
-              <TableCell className={classes.colHeading} align="left">
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedData
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((entry) => (
-                <TaskRow key={entry._id} row={entry} />
-              ))}
-          </TableBody>
-        </Table>
+        {loading ? (
+          <LoadingDiv />
+        ) : (
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell className={classes.colHeading} align="left">
+                  Title
+                </TableCell>
+                <TableCell className={classes.colHeading} align="left">
+                  Asignee
+                </TableCell>
+                <TableCell className={classes.colHeading} align="left">
+                  Status
+                </TableCell>
+                <TableCell className={classes.colHeading} align="left">
+                  Actions
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {sortedData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((entry) => (
+                  <TaskRow key={entry._id} row={entry} />
+                ))}
+            </TableBody>
+          </Table>
+        )}
       </TableContainer>
 
       <TablePagination

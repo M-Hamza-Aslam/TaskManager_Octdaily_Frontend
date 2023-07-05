@@ -1,8 +1,10 @@
 .taskHeader {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   margin: 3rem 0 3rem 0;
+  gap: 1rem;
 }
 .taskHeader > button {
   background-color: var(--color-btn-primary);
